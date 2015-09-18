@@ -1,0 +1,14 @@
+Deploy music queue app via ansible
+==================================
+
+1. ssh to remote server 
+3. create new virtualenv for the project
+4. activate virtual env
+5. clone git repo
+6. install django via pip
+7. ./manage.py makemigrations 
+8. ./manage.py migrate
+9. ./manage.py loaddata users.json
+10. ./manage.py runserver 0.0.0.0:8000
+
+ 
