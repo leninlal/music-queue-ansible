@@ -1,0 +1,33 @@
+---
+- hosts: test
+  remote_user: edex4
+  sudo: yes
+  tasks:
+  -  name: create new virtualenv for the project
+     command: virtualenv /home/edex4/music-app -p python2.7 creates="/home/edex4/music-app"
+  -  name: create directory
+     file: path=/home/edex4/music-queue state=directory
+  -  name: clone git repo
+     git: dest=/home/edex4/music-queue repo=https://github.com/leninlal/music-queue.git 
+  -  name: change directory to music-queue
+     shell: cd music-queue
+  -  name: test
+     shell: echo  
+  -  name: install django via pip
+     pip: name=django virtualenv=/home/edex4/music-app
+  -  name: makemigrations
+     shell: /home/edex4/music-app/bin/python manage.py makemigrations
+     args:
+       chdir: /home/edex4/music-queue 
+  -  name: migrtate   
+     shell:  /home/edex4/music-app/bin/python manage.py migrate
+     args:
+       chdir: /home/edex4/music-queue 
+  # -  name: loaddata
+  #    shell:  python manage.py loaddata users.json
+     args:
+       chdir: /home/edex4/music-queue 
+  -  name: runserver
+     shell:  nohup /home/edex4/music-app/bin/python manage.py runserver 0.0.0.0:8000
+     args:
+       chdir: /home/edex4/music-queue 
