@@ -25,9 +25,15 @@
        chdir: /home/edex4/music-queue 
   # -  name: loaddata
   #    shell:  python manage.py loaddata users.json
-     args:
-       chdir: /home/edex4/music-queue 
-  -  name: runserver
-     shell:  nohup /home/edex4/music-app/bin/python manage.py runserver 0.0.0.0:8000
-     args:
-       chdir: /home/edex4/music-queue 
+     # args:
+     #   chdir: /home/edex4/music-queue 
+  # -  name: runserver
+  #    shell:  nohup /home/edex4/music-app/bin/python manage.py runserver 0.0.0.0:8000
+  #    args:
+  #      chdir: /home/edex4/music-queue 
+  - name: install supervisor
+    shell: sudo apt-get install supervisor
+  - name: create supervisor script for music music-app
+    copy: src=/home/jez/ansible/music/app.conf dest=/etc/supervisor/conf.d/app.conf
+  - name: restart supervisor
+    shell: sudo service supervisor restart
